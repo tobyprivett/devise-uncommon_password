@@ -30,7 +30,8 @@ module Devise
       private
 
       def not_common_password
-        if Devise::Models::UncommonPassword.common_passwords.include? password&.downcase
+        return unless password
+        if Devise::Models::UncommonPassword.common_passwords.find { |e| password.downcase.match e }
           errors.add(:password, :common_password)
         end
       end
